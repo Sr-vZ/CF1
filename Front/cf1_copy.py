@@ -684,6 +684,7 @@ class SeqScreen(Screen):
         else:
             sequencepool[trackselected-1].append([(x-1)*zoom+rangeX+1,y+rangeY-1,1])
             sequencepool[trackselected-1]=sorted(sequencepool[trackselected-1], key=operator.itemgetter(0))
+            pprint(sequencepool2)
             # sequencepool2[trackselected-1].remove([(x-1)*zoom+rangeX+1,y+rangeY-1,"note off"])
             sequencepool2[trackselected-1]=sorted(sequencepool[trackselected-1], key=operator.itemgetter(0))
             #print(x)
@@ -1285,9 +1286,11 @@ class Timing():
                         else:
                             channel=1
                         msg=mido.Message('note_on', note=sequencepool2[n][loopstate[n]][1], channel=channel)
+                        sequencepool2[n][loopstate[n]][1].append('note on')
                         port.send(msg)
                     else:
                         print ("stop" , sequencepool2[n][loopstate[n]][1] ,"channel" , n+1)
+                        sequencepool2[n][loopstate[n]][1].append('note off')
 
                     if loopstate[n]==len(sequencepool2[n])-1:
                         #print("seq over")
