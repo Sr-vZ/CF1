@@ -1,0 +1,75 @@
+IMPORTANT:
+!! Don't replace sequencepool, instead just add a new variable sequencepool2 !!
+
+https://github.com/max-circlefade/CF1/tree/master/Front
+
+In the sesscreen class, I need you to update a couple methods to do the following:
+
+When you click on the buttons of the sequencer screen, the corresponding notes are added to a variable, sequencepool
+
+right now when the button is clicked a list is added to sequencepool containing basic infos:
+[Step number,Note number, Note length]
+
+I need you to change it so the data like this:
+[Step number,Note number, Note on]
+[Step number,Note number, Note off]
+
+The step number of the note off list should be greater than the one from note on
+
+______
+
+the way midi messages work is, there are note on messages (so the note is pressed on a keyboard for example) and note off messages (note released)
+
+because I will need to send these messages outside of my app (this is why it is called a sequencer), I need the sequencepool format to be compatible
+
+______
+
+the first thing is just to update the sequencepool format, so just the monitor function
+
+it is not hat simple because there is also the zoom to take into acount
+
+that*
+
+if you zoom then the note duration of keys pressed changes
+
+_____
+
+so it is linked to the zoom
+
+do you understand what the steps are ?
+
+when zoom = 1 each button represent one step
+
+for zoom 4 (basic view) each button is 4 steps
+
+so if you clic on a button it will update sequencepool with a new list, [step number, note number, note on] then add an other [step number + 4, note number, note off]
+
+you need to add something like:
+sequencepool2[trackselected-1].append([(x-1)*zoom+rangeX+1,y+rangeY-1,"note on"])
+sequencepool2[trackselected-1].append([(x-1)*zoom+rangeX+1+zoom,y+rangeY-1,"note off"])
+
+every time there is a note on, then, a couple steps after (based on the zoom) there is a note off
+
+when you remove the note, then it removes both note on and note off
+
+here are a couple examples:
+step number : 10
+note: 40
+zoom 1
+then [10,40,note on][11,40,note on]
+step number : 25
+note: 40
+zoom 2
+then [25,40,note on][27,40,note on]
+
+I mean
+step number : 10
+note: 40
+zoom 1
+then [10,40,note on][11,40,note off]
+step number : 25
+note: 40
+zoom 2
+then [25,40,note on][27,40,note off]
+
+the zoom actually defines the size of the button (size as number of steps)
