@@ -677,22 +677,31 @@ class SeqScreen(Screen):
         x=int(ID[-2:])
         buttonpouched=ID
         #print(buttonpouched)
+        i=0
         if button.state=="normal":
             sequencepool[trackselected-1].remove([(x-1)*zoom+rangeX+1,y+rangeY-1,1])
+            sequencepool2[trackselected-1].remove([(x-1)*zoom+rangeX+1,y+rangeY-1,1])
             # sequencepool2[trackselected-1].remove([(x-1)*zoom+rangeX+1,y+rangeY-1,"note on"])
             #print(sequence)
         else:
+            i=i+1            
             sequencepool[trackselected-1].append([(x-1)*zoom+rangeX+1,y+rangeY-1,1])
             sequencepool[trackselected-1]=sorted(sequencepool[trackselected-1], key=operator.itemgetter(0))
-            pprint(sequencepool2)
+            # pprint(sequencepool2)
             # sequencepool2[trackselected-1].remove([(x-1)*zoom+rangeX+1,y+rangeY-1,"note off"])
-            sequencepool2[trackselected-1]=sorted(sequencepool[trackselected-1], key=operator.itemgetter(0))
+            if sequencepool2[trackselected-1][][1]:
+                sequencepool2[trackselected-1].append([(x-1)*zoom+rangeX+1,y+rangeY-1,"note_on"])
+                sequencepool2[trackselected-1]=sorted(sequencepool[trackselected-1], key=operator.itemgetter(0))
+            else:
+                sequencepool2[trackselected-1].append([(x-1)*zoom+rangeX+1,y+rangeY-1,"note_off"])
+                sequencepool2[trackselected-1]=sorted(sequencepool[trackselected-1], key=operator.itemgetter(0))
             #print(x)
             #print(rangeX)
             #print((x-1)*zoom+rangeX+1)
             #print(sorted(sequencepool[trackselected-1], key=operator.itemgetter(0)))
-        print(sequencepool)
-        pprint(sequencepool2)
+        
+        # print(sequencepool)
+        pprint(sequencepool2[0][0][1])
             
     def clearsequence(self):
         global sequencepool
@@ -1499,6 +1508,7 @@ sequencepool2=[[[12,41,1],[17,42,1],[25,42,1],[25,40,1],[26,45,1],[29,42,1],[29,
 [],[],[],[],[],[],[],[],[],[],
 [],[],[],[],[],[],[],[],[],[]
 ]
+# sequencepool2 = [[[],[],[]]]
 #[Step number,Note number, Note length]
 #song=[[1,2,3,5,6,10],[1,5],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]]
 #song=[[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[],[]]
