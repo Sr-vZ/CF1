@@ -700,15 +700,15 @@ class SeqScreen(Screen):
             #print(rangeX)
             #print((x-1)*zoom+rangeX+1)
             #print(sorted(sequencepool[trackselected-1], key=operator.itemgetter(0)))
-            if sequencepool2[trackselected-1][(x-1)*zoom+rangeX+1][1] == sequencepool2[trackselected-1][(x-1)*zoom+rangeX+1][1]:
-                sequencepool2[trackselected-1].append([(x-1)*zoom+rangeX+1,y+rangeY-1,"note_on"])
-                sequencepool2[trackselected-1].append([(x-1)*zoom+rangeX+1+zoom,y+rangeY-1,"note_off"])
-                
-            else:
-                sequencepool2[trackselected-1].append([(x-1)*zoom+rangeX+1,y+rangeY-1,"note_off"])
+            for i in range(len(sequencepool2)):
+                for j in range(len(sequencepool2[i])):
+                    if sequencepool2[i][j][1] == sequencepool2[i][j-1][1] and sequencepool2[i][j][0] == sequencepool2[i][j-1][0]:
+                        print('x: ',x,' zoom: ',zoom,' rangeX: ',rangeX,' y: ',y,' rangeY:',rangeY)
+                        sequencepool2[trackselected-1].append([(x-1)*zoom+rangeX+1,y+rangeY-1,"note_on"])
+                        sequencepool2[trackselected-1].append([(x-1)*zoom+rangeX+1+zoom,y+rangeY-1,"note_off"])
+                # else:
+                #     sequencepool2[trackselected-1].append([(x-1)*zoom+rangeX+1,y+rangeY-1,"note_off"])
                 # sequencepool2[trackselected-1]=sorted(sequencepool[trackselected-1], key=operator.itemgetter(0))
-
-        
         # print(sequencepool)
         pprint(sequencepool2)
             
