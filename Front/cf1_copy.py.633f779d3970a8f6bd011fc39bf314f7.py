@@ -703,10 +703,10 @@ class SeqScreen(Screen):
             if sequencepool2[trackselected-1][(x-1)*zoom+rangeX+1][1] == sequencepool2[trackselected-1][(x-1)*zoom+rangeX+1][1]:
                 sequencepool2[trackselected-1].append([(x-1)*zoom+rangeX+1,y+rangeY-1,"note_on"])
                 sequencepool2[trackselected-1].append([(x-1)*zoom+rangeX+1+zoom,y+rangeY-1,"note_off"])
-                
+                sequencepool2[trackselected-1]=sorted(sequencepool[trackselected-1], key=operator.itemgetter(0))
             else:
                 sequencepool2[trackselected-1].append([(x-1)*zoom+rangeX+1,y+rangeY-1,"note_off"])
-                # sequencepool2[trackselected-1]=sorted(sequencepool[trackselected-1], key=operator.itemgetter(0))
+                sequencepool2[trackselected-1]=sorted(sequencepool[trackselected-1], key=operator.itemgetter(0))
 
         
         # print(sequencepool)
